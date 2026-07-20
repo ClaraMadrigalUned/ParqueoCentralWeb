@@ -1,0 +1,37 @@
+﻿@model ParqueoCentralWeb.Models.EspacioEstacionamiento
+
+@{
+    ViewBag.Title = "Detalle del espacio";
+}
+
+<h2>Detalle del espacio</h2>
+
+<dl class="dl-horizontal">
+    <dt>Código</dt>
+    <dd>@Model.CodigoEspacio</dd>
+
+    <dt>Tipo</dt>
+    <dd>@Model.TipoEspacio</dd>
+
+    <dt>Estado</dt>
+    <dd>@Model.Estado</dd>
+
+    <dt>Activo</dt>
+    <dd>@(Model.Activo ? "Sí" : "No")</dd>
+</dl>
+
+<p>
+    @Html.ActionLink(
+        "Editar",
+        "Edit",
+        new { id = Model.IdEspacio },
+        new { @class = "btn btn-warning" }
+    )
+
+    @Html.ActionLink(
+        "Regresar",
+        "Index",
+        null,
+        new { @class = "btn btn-default" }
+    )
+</p>

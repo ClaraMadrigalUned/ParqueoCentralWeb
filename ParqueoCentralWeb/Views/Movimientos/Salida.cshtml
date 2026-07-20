@@ -1,0 +1,64 @@
+﻿@model ParqueoCentralWeb.Models.MovimientoEstacionamiento
+
+@{
+    ViewBag.Title = "Registrar salida";
+}
+
+<h2>Registrar salida</h2>
+
+<div class="alert alert-warning">
+    Revise la información antes de confirmar la salida.
+</div>
+
+<dl class="dl-horizontal">
+    <dt>Placa</dt>
+    <dd>@Model.Vehiculo.Placa</dd>
+
+    <dt>Espacio</dt>
+    <dd>@Model.EspacioEstacionamiento.CodigoEspacio</dd>
+
+    <dt>Fecha y hora de entrada</dt>
+    <dd>@Model.FechaHoraEntrada.ToString("dd/MM/yyyy hh:mm tt")</dd>
+
+    <dt>Estado</dt>
+    <dd>@Model.EstadoMovimiento</dd>
+
+    <dt>Tarifa</dt>
+    <dd>₡600 por hora o fracción</dd>
+</dl>
+
+@using (Html.BeginForm(
+    "SalidaConfirmada",
+    "Movimientos",
+    FormMethod.Post,
+    new { id = "formSalida" }))
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden"
+           name="id"
+           value="@Model.IdMovimiento" />
+
+    <button type="submit"
+            class="btn btn-danger"
+            onclick="return confirmarSalida();">
+        Confirmar salida
+    </button>
+
+    @Html.ActionLink(
+        "Cancelar",
+        "Index",
+        null,
+        new { @class = "btn btn-default" }
+    )
+}
+
+@section Scripts {
+    <script>
+        function confirmarSalida() {
+            return confirm(
+                "¿Desea registrar la salida de este vehículo?"
+            );
+        }
+    </script>
+}

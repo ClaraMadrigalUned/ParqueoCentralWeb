@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ParqueoCentralWeb.Models.Vehiculo>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron vehículos.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Placa</th>
+                <th>Tipo de vehículo</th>
+                <th>Propietario o conductor</th>
+                <th>Contacto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Placa</td>
+                    <td>@item.TipoVehiculo</td>
+                    <td>@item.Propietario</td>
+                    <td>
+                        @(string.IsNullOrWhiteSpace(item.Contacto)
+                            ? "No registrado"
+                            : item.Contacto)
+                    </td>
+                    <td>
+                        @Html.ActionLink(
+                            "Editar",
+                            "Edit",
+                            new { id = item.IdVehiculo },
+                            new { @class = "btn btn-warning btn-sm" }
+                        )
+
+                        @Html.ActionLink(
+                            "Detalle",
+                            "Details",
+                            new { id = item.IdVehiculo },
+                            new { @class = "btn btn-info btn-sm" }
+                        )
+
+                        @Html.ActionLink(
+                            "Eliminar",
+                            "Delete",
+                            new { id = item.IdVehiculo },
+                            new { @class = "btn btn-danger btn-sm" }
+                        )
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

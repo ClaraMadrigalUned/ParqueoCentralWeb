@@ -1,0 +1,55 @@
+﻿@model ParqueoCentralWeb.Models.MovimientoEstacionamiento
+
+@{
+    ViewBag.Title = "Eliminar movimiento";
+}
+
+<h2>Eliminar movimiento</h2>
+
+<div class="alert alert-warning">
+    ¿Está seguro de que desea eliminar este movimiento?
+</div>
+
+<dl class="dl-horizontal">
+
+    <dt>Vehículo</dt>
+    <dd>@Model.Vehiculo.Placa</dd>
+
+    <dt>Espacio</dt>
+    <dd>@Model.EspacioEstacionamiento.CodigoEspacio</dd>
+
+    <dt>Entrada</dt>
+    <dd>@Model.FechaHoraEntrada.ToString("dd/MM/yyyy HH:mm")</dd>
+
+    <dt>Salida</dt>
+    <dd>
+        @(Model.FechaHoraSalida.HasValue
+            ? Model.FechaHoraSalida.Value.ToString("dd/MM/yyyy HH:mm")
+            : "No registrada")
+    </dd>
+
+    <dt>Estado</dt>
+    <dd>@Model.EstadoMovimiento</dd>
+
+    <dt>Monto</dt>
+    <dd>₡@Model.MontoCobrado.ToString("N2")</dd>
+
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.IdMovimiento)
+
+    <button type="submit"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    @Html.ActionLink(
+        "Cancelar",
+        "Index",
+        null,
+        new { @class = "btn btn-default" })
+}

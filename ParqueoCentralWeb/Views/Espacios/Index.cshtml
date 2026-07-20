@@ -1,0 +1,109 @@
+﻿@model IEnumerable<ParqueoCentralWeb.Models.EspacioEstacionamiento>
+
+@{
+    ViewBag.Title = "Espacios de estacionamiento";
+}
+
+<h2>Espacios de estacionamiento</h2>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensajeExito"]
+    </div>
+}
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["MensajeError"]
+    </div>
+}
+
+<p>
+    @Html.ActionLink(
+        "Registrar espacio",
+        "Create",
+        null,
+        new { @class = "btn btn-primary" }
+    )
+</p>
+
+@using (Html.BeginForm("Index", "Espacios", FormMethod.Get))
+{
+    <div class="form-group">
+        <label for="criterioEspacio">
+            Buscar espacio
+        </label>
+
+        <div class="input-group">
+            <input type="text"
+                   id="criterioEspacio"
+                   class="form-control"
+                   placeholder="Código, tipo, estado, activo o inactivo" />
+
+            <span class="input-group-btn">
+                <button type="button"
+                        id="btnBuscarEspacio"
+                        class="btn btn-primary">
+                    Buscar
+                </button>
+
+                <button type="button"
+                        id="btnLimpiarEspacio"
+                        class="btn btn-default">
+                    Limpiar
+                </button>
+            </span>
+        </div>
+    </div>
+}
+
+<div id="contenedorEspacios">
+    @Html.Partial("_TablaEspacios", Model)
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No existen espacios registrados.
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            function buscarEspacios() {
+                var texto = $("#criterioEspacio").val();
+
+                $.ajax({
+                    url: '@Url.Action("BuscarAjax", "Espacios")',
+                    type: "GET",
+                    data: {
+                        criterio: texto
+                    },
+                    success: function (resultado) {
+                        $("#contenedorEspacios").html(resultado);
+                    },
+                    error: function () {
+                        alert("No fue posible buscar los espacios.");
+                    }
+                });
+            }
+
+            $("#btnBuscarEspacio").click(function () {
+                buscarEspacios();
+            });
+
+            $("#criterioEspacio").keyup(function () {
+                buscarEspacios();
+            });
+
+            $("#btnLimpiarEspacio").click(function () {
+                $("#criterioEspacio").val("");
+                buscarEspacios();
+            });
+        });
+    </script>
+}

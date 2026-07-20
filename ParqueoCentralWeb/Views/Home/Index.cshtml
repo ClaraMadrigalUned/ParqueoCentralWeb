@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    <h2>Parqueo Central</h2>
+
+    <p>
+        Sistema para el registro de vehículos, espacios y movimientos
+        de estacionamiento.
+    </p>
+
+    <hr />
+
+    <h4>Operador del sistema</h4>
+
+    @using (Html.BeginForm("GuardarOperador", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label for="nombreOperador">
+                Nombre del operador
+            </label>
+
+            <input type="text"
+                   id="nombreOperador"
+                   name="nombreOperador"
+                   class="form-control"
+                   value="@(Session["NombreOperador"] ?? "")"
+                   placeholder="Digite el nombre del operador" />
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Guardar
+        </button>
+    }
+</main>

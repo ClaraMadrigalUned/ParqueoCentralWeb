@@ -1,0 +1,105 @@
+﻿@model IEnumerable<ParqueoCentralWeb.Models.Vehiculo>
+
+@{
+    ViewBag.Title = "Vehículos registrados";
+}
+
+<h2>Vehículos registrados</h2>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensajeExito"]
+    </div>
+}
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["MensajeError"]
+    </div>
+}
+
+<p>
+    @Html.ActionLink(
+        "Registrar vehículo",
+        "Create",
+        null,
+        new { @class = "btn btn-primary" }
+    )
+</p>
+
+@using (Html.BeginForm("Index", "Vehiculos", FormMethod.Get))
+{<div class="form-group">
+        <label for="placaAjax">Buscar por placa</label>
+
+        <div class="input-group">
+            <input type="text"
+                   id="placaAjax"
+                   class="form-control"
+                   placeholder="Digite una placa" />
+
+            <button type="button"
+                    id="btnBuscarAjax"
+                    class="btn btn-primary">
+                Buscar
+            </button>
+
+            <button type="button"
+                    id="btnLimpiarAjax"
+                    class="btn btn-secondary">
+                Limpiar
+            </button>
+        </div>
+    </div>
+
+    <div id="contenedorVehiculos">
+        @Html.Partial("_TablaVehiculos", Model)
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron vehículos registrados.
+    </div>
+}
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            function buscarVehiculos() {
+                var placaIngresada = $("#placaAjax").val();
+
+                $.ajax({
+                    url: '@Url.Action("BuscarAjax", "Vehiculos")',
+                    type: 'GET',
+                    data: {
+                        placa: placaIngresada
+                    },
+                    success: function (resultado) {
+                        $("#contenedorVehiculos").html(resultado);
+                    },
+                    error: function () {
+                        alert("No fue posible realizar la búsqueda.");
+                    }
+                });
+            }
+
+            $("#btnBuscarAjax").click(function () {
+                buscarVehiculos();
+            });
+
+            $("#placaAjax").keyup(function () {
+                buscarVehiculos();
+            });
+
+            $("#btnLimpiarAjax").click(function () {
+                $("#placaAjax").val("");
+                buscarVehiculos();
+            });
+        });
+    </script>
+}

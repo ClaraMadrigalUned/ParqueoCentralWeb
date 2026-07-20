@@ -1,0 +1,48 @@
+﻿@model ParqueoCentralWeb.Models.EspacioEstacionamiento
+
+@{
+    ViewBag.Title = "Eliminar espacio";
+}
+
+<h2>Eliminar espacio</h2>
+
+<div class="alert alert-warning">
+    ¿Está seguro de que desea eliminar este espacio?
+</div>
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>Código del espacio</dt>
+        <dd>@Model.CodigoEspacio</dd>
+
+        <dt>Tipo de espacio</dt>
+        <dd>@Model.TipoEspacio</dd>
+
+        <dt>Estado</dt>
+        <dd>@Model.Estado</dd>
+
+        <dt>Activo</dt>
+        <dd>@(Model.Activo ? "Sí" : "No")</dd>
+
+    </dl>
+</div>
+
+@using (Html.BeginForm("Delete", "Espacios", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.IdEspacio)
+
+    <button type="submit"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    @Html.ActionLink(
+        "Cancelar",
+        "Index",
+        null,
+        new { @class = "btn btn-default" }
+    )
+}

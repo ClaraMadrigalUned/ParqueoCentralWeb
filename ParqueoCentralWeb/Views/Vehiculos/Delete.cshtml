@@ -1,0 +1,42 @@
+﻿@model ParqueoCentralWeb.Models.Vehiculo
+
+@{
+    ViewBag.Title = "Eliminar vehículo";
+}
+
+<h2>Eliminar vehículo</h2>
+
+<div class="alert alert-warning">
+    ¿Está seguro de que desea eliminar este vehículo?
+</div>
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>Placa</dt>
+        <dd>@Model.Placa</dd>
+
+        <dt>Tipo de vehículo</dt>
+        <dd>@Model.TipoVehiculo</dd>
+
+    </dl>
+</div>
+
+@using (Html.BeginForm("Delete", "Vehiculos", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.IdVehiculo)
+
+    <button type="submit"
+            class="btn btn-danger">
+        Eliminar
+    </button>
+
+    @Html.ActionLink(
+        "Cancelar",
+        "Index",
+        null,
+        new { @class = "btn btn-default" }
+    )
+}

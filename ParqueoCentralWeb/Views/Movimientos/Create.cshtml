@@ -1,0 +1,102 @@
+﻿@model ParqueoCentralWeb.Models.MovimientoEstacionamiento
+
+@{
+    ViewBag.Title = "Registrar entrada";
+}
+
+<h2>Registrar entrada</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(
+            false,
+            "",
+            new { @class = "text-danger" }
+        )
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.IdVehiculo,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                })
+
+            <div class="col-md-6">
+
+                @Html.DropDownList(
+                    "IdVehiculo",
+                    null,
+                    "Seleccione un vehículo",
+                    new { @class = "form-control" })
+
+            </div>
+
+            @Html.ValidationMessageFor(
+                model => model.IdVehiculo,
+                "",
+                new { @class = "text-danger" }
+            )
+
+        </div>
+
+        <div class="form-group">
+
+            @Html.LabelFor(
+                model => model.IdEspacio,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                })
+
+            <div class="col-md-6">
+
+                @Html.DropDownList(
+                    "IdEspacio",
+                    null,
+                    "Seleccione un espacio",
+                    new { @class = "form-control" })
+
+            </div>
+
+            @Html.ValidationMessageFor(
+                model => model.IdEspacio,
+                "",
+                new { @class = "text-danger" }
+            )
+
+        </div>
+
+
+        <div class="form-group">
+
+            <div class="col-md-offset-2 col-md-6">
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    Registrar entrada
+
+                </button>
+
+                @Html.ActionLink(
+                    "Cancelar",
+                    "Index",
+                    null,
+                    new { @class = "btn btn-default" })
+
+            </div>
+
+        </div>
+
+    </div>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,41 @@
+﻿@model ParqueoCentralWeb.Models.Vehiculo
+
+@{
+    ViewBag.Title = "Detalle del vehículo";
+}
+
+<h2>Detalle del vehículo</h2>
+
+<dl class="dl-horizontal">
+    <dt>Placa</dt>
+    <dd>@Model.Placa</dd>
+
+    <dt>Tipo de vehículo</dt>
+    <dd>@Model.TipoVehiculo</dd>
+
+    <dt>Propietario o conductor</dt>
+    <dd>@Model.Propietario</dd>
+
+    <dt>Contacto</dt>
+    <dd>
+        @(string.IsNullOrWhiteSpace(Model.Contacto)
+            ? "No registrado"
+            : Model.Contacto)
+    </dd>
+</dl>
+
+<p>
+    @Html.ActionLink(
+        "Editar",
+        "Edit",
+        new { id = Model.IdVehiculo },
+        new { @class = "btn btn-warning" }
+    )
+
+    @Html.ActionLink(
+        "Regresar",
+        "Index",
+        null,
+        new { @class = "btn btn-default" }
+    )
+</p>

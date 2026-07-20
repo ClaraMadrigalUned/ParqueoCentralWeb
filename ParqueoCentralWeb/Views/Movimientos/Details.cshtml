@@ -1,0 +1,71 @@
+﻿@model ParqueoCentralWeb.Models.MovimientoEstacionamiento
+
+@{
+    ViewBag.Title = "Detalle del movimiento";
+}
+
+<h2>Detalle del movimiento</h2>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensajeExito"]
+    </div>
+}
+
+<dl class="dl-horizontal">
+    <dt>Placa</dt>
+    <dd>@Model.Vehiculo.Placa</dd>
+
+    <dt>Tipo de vehículo</dt>
+    <dd>@Model.Vehiculo.TipoVehiculo</dd>
+
+    <dt>Propietario</dt>
+    <dd>@Model.Vehiculo.Propietario</dd>
+
+    <dt>Espacio</dt>
+    <dd>@Model.EspacioEstacionamiento.CodigoEspacio</dd>
+
+    <dt>Entrada</dt>
+    <dd>@Model.FechaHoraEntrada.ToString("dd/MM/yyyy hh:mm tt")</dd>
+
+    <dt>Salida</dt>
+    <dd>
+        @if (Model.FechaHoraSalida.HasValue)
+        {
+            @Model.FechaHoraSalida.Value.ToString("dd/MM/yyyy hh:mm tt")
+        }
+        else
+        {
+            <span>Aún no registrada</span>
+        }
+    </dd>
+
+    <dt>Estado</dt>
+    <dd>@Model.EstadoMovimiento</dd>
+
+    <dt>Monto cobrado</dt>
+    <dd>₡@Model.MontoCobrado.ToString("N2")</dd>
+
+    <dt>Usuario que registró</dt>
+    <dd>@Model.UsuarioRegistro</dd>
+</dl>
+
+<p>
+    @if (Model.EstadoMovimiento == "Activo")
+    {
+        @Html.ActionLink(
+            "Registrar salida",
+            "Salida",
+            new { id = Model.IdMovimiento },
+            new { @class = "btn btn-danger" }
+        )
+    }
+
+    @Html.ActionLink(
+        "Regresar",
+        "Index",
+        null,
+        new { @class = "btn btn-secondary" }
+    )
+</p>

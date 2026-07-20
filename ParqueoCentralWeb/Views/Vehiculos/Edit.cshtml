@@ -1,0 +1,148 @@
+﻿@model ParqueoCentralWeb.Models.Vehiculo
+
+@{
+    ViewBag.Title = "Editar vehículo";
+}
+
+<h2>Editar vehículo</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.IdVehiculo)
+    @Html.HiddenFor(model => model.Placa)
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(
+            true,
+            "",
+            new { @class = "text-danger" }
+        )
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Placa
+            </label>
+
+            <div class="col-md-6">
+                <input type="text"
+                       value="@Model.Placa"
+                       class="form-control"
+                       readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(
+                model => model.TipoVehiculo,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-6">
+                @Html.DropDownListFor(
+                    model => model.TipoVehiculo,
+                    new SelectList(
+                        new[]
+                        {
+                            "Automóvil",
+                            "Motocicleta",
+                            "Buseta",
+                            "Otro"
+                        },
+                        Model.TipoVehiculo
+                    ),
+                    "Seleccione una opción",
+                    new { @class = "form-control" }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.TipoVehiculo,
+                    "",
+                    new { @class = "text-danger" }
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(
+                model => model.Propietario,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-6">
+                @Html.EditorFor(
+                    model => model.Propietario,
+                    new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.Propietario,
+                    "",
+                    new { @class = "text-danger" }
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(
+                model => model.Contacto,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-6">
+                @Html.EditorFor(
+                    model => model.Contacto,
+                    new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control"
+                        }
+                    }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.Contacto,
+                    "",
+                    new { @class = "text-danger" }
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <button type="submit"
+                        class="btn btn-success">
+                    Guardar cambios
+                </button>
+
+                @Html.ActionLink(
+                    "Regresar",
+                    "Index",
+                    null,
+                    new { @class = "btn btn-default" }
+                )
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

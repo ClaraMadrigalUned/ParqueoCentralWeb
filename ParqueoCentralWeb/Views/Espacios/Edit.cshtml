@@ -1,0 +1,121 @@
+﻿@model ParqueoCentralWeb.Models.EspacioEstacionamiento
+
+@{
+    ViewBag.Title = "Editar espacio";
+}
+
+<h2>Editar espacio</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.IdEspacio)
+    @Html.HiddenFor(model => model.CodigoEspacio)
+    @Html.HiddenFor(model => model.Estado)
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(
+            true,
+            "",
+            new { @class = "text-danger" }
+        )
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Código
+            </label>
+
+            <div class="col-md-6">
+                <input type="text"
+                       value="@Model.CodigoEspacio"
+                       class="form-control"
+                       readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(
+                model => model.TipoEspacio,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-6">
+                @Html.DropDownListFor(
+                    model => model.TipoEspacio,
+                    new SelectList(
+                        new[]
+                        {
+                            "Automóvil",
+                            "Motocicleta",
+                            "Preferencial",
+                            "Otro"
+                        },
+                        Model.TipoEspacio
+                    ),
+                    "Seleccione una opción",
+                    new { @class = "form-control" }
+                )
+
+                @Html.ValidationMessageFor(
+                    model => model.TipoEspacio,
+                    "",
+                    new { @class = "text-danger" }
+                )
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                Estado actual
+            </label>
+
+            <div class="col-md-6">
+                <input type="text"
+                       value="@Model.Estado"
+                       class="form-control"
+                       readonly />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(
+                model => model.Activo,
+                htmlAttributes: new
+                {
+                    @class = "control-label col-md-2"
+                }
+            )
+
+            <div class="col-md-6">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.Activo)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <button type="submit"
+                        class="btn btn-success">
+                    Guardar cambios
+                </button>
+
+                @Html.ActionLink(
+                    "Regresar",
+                    "Index",
+                    null,
+                    new { @class = "btn btn-default" }
+                )
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,91 @@
+﻿@using System.Linq
+@model IEnumerable<ParqueoCentralWeb.Models.MovimientoEstacionamiento>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron movimientos.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Vehículo</th>
+                <th>Espacio</th>
+                <th>Entrada</th>
+                <th>Salida</th>
+                <th>Estado</th>
+                <th>Monto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Vehiculo.Placa</td>
+
+                    <td>
+                        @item.EspacioEstacionamiento.CodigoEspacio
+                    </td>
+
+                    <td>
+                        @item.FechaHoraEntrada.ToString(
+                            "dd/MM/yyyy hh:mm tt"
+                        )
+                    </td>
+
+                    <td>
+                        @if (item.FechaHoraSalida.HasValue)
+                        {
+                            @item.FechaHoraSalida.Value.ToString(
+                                "dd/MM/yyyy hh:mm tt"
+                            )
+                        }
+                        else
+                        {
+                            <span>No registrada</span>
+                        }
+                    </td>
+
+                    <td>@item.EstadoMovimiento</td>
+
+                    <td>
+                        ₡@item.MontoCobrado.ToString("N2")
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(
+                            "Detalle",
+                            "Details",
+                            new { id = item.IdMovimiento },
+                            new { @class = "btn btn-info btn-sm" }
+                        )
+
+                        @if (item.EstadoMovimiento == "Activo")
+                        {
+                            @Html.ActionLink(
+                                "Registrar salida",
+                                "Salida",
+                                new { id = item.IdMovimiento },
+                                new
+                                {
+                                    @class = "btn btn-danger btn-sm"
+                                }
+                            )
+                        }
+
+                        @Html.ActionLink(
+                            "Eliminar",
+                            "Delete",
+                            new { id = item.IdMovimiento },
+                            new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

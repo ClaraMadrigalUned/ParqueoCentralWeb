@@ -1,0 +1,70 @@
+﻿@using System.Linq
+@model IEnumerable<ParqueoCentralWeb.Models.EspacioEstacionamiento>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron espacios.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var claseEstado = item.Estado == "Disponible"
+                    ? "label label-success"
+                    : "label label-danger";
+
+                <tr>
+                    <td>@item.CodigoEspacio</td>
+                    <td>@item.TipoEspacio</td>
+
+                    <td>
+                        <span class="@claseEstado">
+                            @item.Estado
+                        </span>
+                    </td>
+
+                    <td>
+                        @(item.Activo ? "Sí" : "No")
+                    </td>
+
+                    <td>
+                        @Html.ActionLink(
+                            "Editar",
+                            "Edit",
+                            new { id = item.IdEspacio },
+                            new { @class = "btn btn-warning btn-sm" }
+                        )
+
+                        @Html.ActionLink(
+                            "Detalle",
+                            "Details",
+                            new { id = item.IdEspacio },
+                            new { @class = "btn btn-info btn-sm" }
+                        )
+
+                        @Html.ActionLink(
+                            "Eliminar",
+                            "Delete",
+                            new { id = item.IdEspacio },
+                            new { @class = "btn btn-danger btn-sm" }
+                        )
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
